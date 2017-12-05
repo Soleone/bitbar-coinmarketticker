@@ -12,8 +12,6 @@
 # </bitbar.desc>
 # <bitbar.image>https://i.imgur.com/dyJPNy7.png</bitbar.image>
 
-require 'byebug'
-
 require 'open-uri'
 require 'json'
 require 'set'
