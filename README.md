@@ -2,10 +2,12 @@
 
 Shows selected cryptocurrencies rates from Coinmarketcap using Ruby.
 
+![screenshot](https://i.imgur.com/dyJPNy7.png)
+
 ## Usage
 
 1. Install BitBar: https://github.com/matryer/bitbar#get-started
-2. Copy coinmarketticker.rb to your plugins folder, most likely in ~/Documents/Bitbar-Plugins
+2. Copy `coinmarketticker.rb` to your plugins folder, most likely in `~/Documents/Bitbar-Plugins`
 3. Start or refresh BitBar
 
 ## Customization
