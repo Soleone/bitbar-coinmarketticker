@@ -14,17 +14,13 @@
 
 require 'open-uri'
 require 'json'
-require 'set'
 
 # Edit the coins you care about here:
 COINS = %w(
-  ETH
-  BTC
-  XRP
-  LTC
-  NEO
-  MIOTA
-).to_set.freeze
+  XMR
+  ETN
+  SUB
+).freeze
 
 DEFAULT_PERIOD = '24h'
 
@@ -73,12 +69,16 @@ class Coin
     "https://coinmarketcap.com/currencies/#{name.downcase}"
   end
 
+  def updated_at
+    Time.at(data['last_updated'].to_i)
+  end
+
   private
 
   attr_reader :data
 
   def sign(period = DEFAULT_PERIOD)
-    percent_change(period).to_f < 0 ? '-' : '+'
+    data["percent_change_#{period}"].to_f < 0 ? '-' : '+'
   end
 
   def format_price(amount)
@@ -108,5 +108,7 @@ output = ''
 filtered_coins.each do |coin|
   output << "#{coin}\n"
 end
+
+output << "---\nLast updated at #{filtered_coins.first.updated_at} | size=11"
 
 puts output
