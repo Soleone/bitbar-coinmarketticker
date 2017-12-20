@@ -62,7 +62,11 @@ class Coin
   end
 
   def percent_change(period = DEFAULT_PERIOD)
-    format_price(data["percent_change_#{period}"].delete('-'))
+    format_price(percent_change_number(period).to_s.delete('-'))
+  end
+
+  def percent_change_number(period = DEFAULT_PERIOD)
+    data["percent_change_#{period}"].to_f
   end
 
   def url
@@ -87,7 +91,7 @@ class Coin
 end
 
 
-def coins
+def all_coins
   data = open(URL).read
   all_coin_data = JSON.parse(data)
 
@@ -96,19 +100,27 @@ def coins
   end
 end
 
-def filtered_coins
+def filter(coins)
   coins.select do |coin|
     COINS.include?(coin.symbol)
   end
 end
 
+def sort(coins)
+  coins.sort_by(&:percent_change_number)
+end
 
+# Start processing script
+coins = filter(all_coins)
+coins = sort(coins)
+
+# Start outputting to BitBar API
 output = ''
 
-filtered_coins.each do |coin|
+coins.each do |coin|
   output << "#{coin}\n"
 end
 
-output << "---\nLast updated at #{filtered_coins.first.updated_at} | size=11"
+output << "---\nLast updated at #{coins.first.updated_at} | size=11"
 
 puts output
